@@ -22,6 +22,10 @@ export class PostsService {
     async getPost(post_id:number) {
         return await this.postRepo.findOne({where:{post_id:post_id}})
     }
+    async deletePost(post_id:number) {
+        await this.postRepo.delete({post_id:post_id})
+        return "Delete"
+    }
     async commentPost(data:any) {
         return await this.postCommentRepo.save(data) 
     }
@@ -39,10 +43,10 @@ export class PostsService {
     }
     async unbookmarkPost(data:any) {
         const {user_id, post_id} = data
-
+        
         const {bookmarks} = await this.userAnksRepo.findOne({where:{user_id:user_id}})
         let newBookmarks = bookmarks.filter(el => el != parseInt(post_id));
-
+        
         // const [post_id, ...newBookmarks] = bookmarks
         const filteredBookmarks = [...new Set(newBookmarks)]
         await this.userAnksRepo.update({user_id:user_id}, {bookmarks:filteredBookmarks})
@@ -50,5 +54,12 @@ export class PostsService {
     }
     async getPostBookmarks(data:any) {
         
+    }
+
+    async getUserPosts(data:any) {
+        const {user_id} = data
+        console.log(user_id)
+        const userPosts = await this.postRepo.find({where:{user_id:user_id}})
+        return userPosts
     }
 }

@@ -37,4 +37,9 @@ export class AuthenticationanksService {
         getUser.updated_at = undefined
         return getUser
     }
+    
+    async getAllUsers() {
+        const getUser = await this.usersRepo.find()
+        return getUser
+    }
 }

@@ -26,4 +26,11 @@ export class AuthenticationanksController {
       await this.authenticationanksService.getUser(user_id)
     )
   }
+  
+  @Get('users')
+  async getAllUsers(@Body() data: any, @Req() req: Request, @Res() res: Response) {
+    return res.status(HttpStatus.OK).json(
+      await this.authenticationanksService.getAllUsers()
+    )
+  }
 }
