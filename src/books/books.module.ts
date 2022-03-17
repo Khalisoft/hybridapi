@@ -7,10 +7,8 @@ import { Book } from './entities/book.entity';
 import { BookComment } from './entities/bookcomment.entity';
 
 @Module({
-  imports:[
-TypeOrmModule.forFeature([Book, BookComment]), CloudinaryModule
-  ],
+  imports: [TypeOrmModule.forFeature([Book, BookComment]), CloudinaryModule],
   controllers: [BooksController],
-  providers: [BooksService]
+  providers: [BooksService],
 })
 export class BooksModule {}

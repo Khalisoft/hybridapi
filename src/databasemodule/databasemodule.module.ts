@@ -9,16 +9,34 @@ import { UserOns } from './../auth/authenticationons/entities/userons.entity';
 import { TipComment } from './../tips/entities/tipcomment.entity';
 import { PostComment } from './../posts/entities/postcomment.entity';
 import { BookComment } from './../books/entities/bookcomment.entity';
+import { UserTp } from './../auth/authenticationtp/entities/usertp.entity';
+import { Taxes } from './../taxes/entities/taxes.entity';
+import { UserTax } from './../taxes/entities/user.tax.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
         url: process.env.POSTGRES_URL,
-        entities: [__dirname + '/../**/*/.entity.ts', Post, Tip, Book, UserAnks, UserFhts, UserOns, TipComment, PostComment, BookComment],
+        entities: [
+          __dirname + '/../**/*/.entity.ts',
+          Post,
+          Tip,
+          Book,
+          UserAnks,
+          UserFhts,
+          UserOns,
+          TipComment,
+          PostComment,
+          BookComment,
+          UserTp,
+          Taxes,
+          UserTax,
+        ],
         synchronize: true,
       }),
     }),
   ],
 })
-export class DatabasemoduleModule { }
+export class DatabasemoduleModule {}
