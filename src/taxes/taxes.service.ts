@@ -28,6 +28,10 @@ export class TaxesService {
   async getAllTaxes() {
     return await this.taxesRepo.find();
   }
+  
+  async getAllActiveTaxes() {
+    return await this.taxesRepo.find({where:{isActive:true}});
+  }
 
   async getAllUsersTax() {
     return await this.userTaxesRepo.find();

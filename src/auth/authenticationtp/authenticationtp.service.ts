@@ -9,13 +9,12 @@ import { TaxesService } from './../../taxes/taxes.service';
 export class AuthenticationtpService {
   constructor(
     @InjectRepository(UserTp) private usersRepo: Repository<UserTp>,
-    // private taxesService: forwardRef(()=> TaxesService),
     @Inject(forwardRef(() => TaxesService)) private taxesService: TaxesService,
   ) {}
 
   async signup(data: any) {
     const user = await this.usersRepo.save(data);
-    const taxes = await this.taxesService.getAllTaxes();
+    const taxes = await this.taxesService.getAllActiveTaxes();
 
     for (let index = 0; index < taxes.length; index++) {
       await this.taxesService.createUserTax({ ...user, ...taxes[index] });
