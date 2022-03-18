@@ -12,6 +12,7 @@ import { BookComment } from './../books/entities/bookcomment.entity';
 import { UserTp } from './../auth/authenticationtp/entities/usertp.entity';
 import { Taxes } from './../taxes/entities/taxes.entity';
 import { UserTax } from './../taxes/entities/user.tax.entity';
+import { Payment } from 'src/taxes/entities/payment.entity';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { UserTax } from './../taxes/entities/user.tax.entity';
           UserTp,
           Taxes,
           UserTax,
+          Payment
         ],
         synchronize: true,
       }),

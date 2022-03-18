@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { Taxes } from './entities/taxes.entity';
 import { UserTax } from './entities/user.tax.entity';
 import { AuthenticationtpService } from './../auth/authenticationtp/authenticationtp.service';
+import { Payment } from './entities/payment.entity';
 
 @Injectable()
 export class TaxesService {
   constructor(
     @InjectRepository(Taxes) private taxesRepo: Repository<Taxes>,
     @InjectRepository(UserTax) private userTaxesRepo: Repository<UserTax>,
+    @InjectRepository(Payment) private paymentRepo: Repository<Payment>,
     @Inject(forwardRef(() => AuthenticationtpService))
     private authService: AuthenticationtpService,
   ) {}
@@ -28,9 +30,9 @@ export class TaxesService {
   async getAllTaxes() {
     return await this.taxesRepo.find();
   }
-  
+
   async getAllActiveTaxes() {
-    return await this.taxesRepo.find({where:{isActive:true}});
+    return await this.taxesRepo.find({ where: { isActive: true } });
   }
 
   async getAllUsersTax() {
@@ -40,7 +42,7 @@ export class TaxesService {
   async getUserTaxes(user_id: number) {
     return await this.userTaxesRepo.find({ where: { user_id: user_id } });
   }
-
+  
   async createUserTax(data: any) {
     return await this.userTaxesRepo.save(data);
   }
@@ -51,14 +53,23 @@ export class TaxesService {
   }
 
   async payTax(data: any) {
-    const { user_id, tax_no, id } = data;
+    const { user_id, tax_no, id, message, ref_no } = data;
     await this.userTaxesRepo.update(
       { user_id: user_id, tax_no: tax_no, id: id },
       { is_paid: true, status: 'paid' },
     );
-    return await this.userTaxesRepo.findOne({
+    const userTax = await this.userTaxesRepo.findOne({
       where: { user_id: user_id, tax_no: tax_no, id: id },
     });
+    return await this.paymentRepo.save({ ...data, ...userTax });
+  }
+  
+  async getUserPayments(user_id: number) {
+    return await this.paymentRepo.find({ where: { user_id: user_id } });
+  }
+ 
+  async getAllPayments() {
+    return await this.paymentRepo.find();
   }
 
   async activateTax(data: any) {
@@ -85,7 +96,7 @@ export class TaxesService {
     for (let index = 0; index < userTaxes.length; index++) {
       await this.userTaxesRepo.update(
         { tax_no: userTaxes[index].tax_no, id: userTaxes[index].id },
-        { is_paid: false, status: 'not paid' },
+        { is_paid: false, status: 'Unpaid' },
       );
     }
     return { message: 'Tax Reset success' };

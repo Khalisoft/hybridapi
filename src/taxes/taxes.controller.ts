@@ -49,8 +49,23 @@ export class TaxesController {
     @Res() res: Response,
   ) {
     return res
-      .status(HttpStatus.CREATED)
+      .status(HttpStatus.OK)
       .json(await this.taxesService.getUserTaxes(user_id));
+  }
+  @Get('payments/:user_id')
+  async getAllUserPayments(
+    @Param('user_id') user_id: number,
+    @Res() res: Response,
+  ) {
+    return res
+      .status(HttpStatus.OK)
+      .json(await this.taxesService.getUserPayments(user_id));
+  }
+  @Get('payments')
+  async getAllPayments(@Res() res: Response) {
+    return res
+      .status(HttpStatus.OK)
+      .json(await this.taxesService.getAllPayments());
   }
 
   @Post('pay')
@@ -60,26 +75,42 @@ export class TaxesController {
       .json(await this.taxesService.payTax(data));
   }
   @Post('activate')
-  async activateTax(@Body() data: any, @Req() req: Request, @Res() res: Response) {
+  async activateTax(
+    @Body() data: any,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     return res
       .status(HttpStatus.CREATED)
       .json(await this.taxesService.activateTax(data));
   }
   @Post('deactivate')
-  async deactivateTax(@Body() data: any, @Req() req: Request, @Res() res: Response) {
+  async deactivateTax(
+    @Body() data: any,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     return res
       .status(HttpStatus.CREATED)
       .json(await this.taxesService.deactivateTax(data));
   }
   @Post('remove')
-  async removeTax(@Body() data: any, @Req() req: Request, @Res() res: Response) {
+  async removeTax(
+    @Body() data: any,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     return res
       .status(HttpStatus.CREATED)
       .json(await this.taxesService.removeTax(data));
   }
- 
+
   @Post('reset')
-  async resetTaxes(@Body() data: any, @Req() req: Request, @Res() res: Response) {
+  async resetTaxes(
+    @Body() data: any,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     return res
       .status(HttpStatus.CREATED)
       .json(await this.taxesService.resetTaxes());

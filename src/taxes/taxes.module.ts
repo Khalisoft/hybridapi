@@ -5,10 +5,11 @@ import { AuthenticationtpModule } from './../auth/authenticationtp/authenticatio
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Taxes } from './entities/taxes.entity';
 import { UserTax } from './entities/user.tax.entity';
+import { Payment } from './entities/payment.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Taxes, UserTax]),
+    TypeOrmModule.forFeature([Taxes, UserTax, Payment]),
     forwardRef(() => AuthenticationtpModule),
   ],
   controllers: [TaxesController],
